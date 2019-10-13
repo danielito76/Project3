@@ -1,5 +1,4 @@
-# Project3
-![ga_cog_large_red_rgb](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png)
+# **Project 3: Date-A-Base** ![ga_cog_large_red_rgb](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png)
 # Project 3: Date-a-base
 ## Dating Experience Website
 # Team
@@ -7,10 +6,20 @@
 - Adesola Oni-Shogbonyo
 - Michael G. Laird
 - Francisco Dias
+
 ## Overview
-Date-a-Base is a virtual community where everyone can find and share advices about beautiful and funny locations in London and surroundings, suitable for a dating. The type of locations meet a wide range of preferences which can be filtered depending on the expectetions.
-Launch on GitHub Pages. Check out the GitHub Repo.
-==============Home page screenshot===============
+This is my third project from General Assembly's Software Engineering Immersive Course. It is a group project built in one week.
+Date-a-Base is a virtual community where everyone can find and share advices about beautiful and funny locations in London and surroundings, suitable for a dating. The type of locations meet a wide range of preferences which can be filtered depending on the expectations.
+
+- [DATE-@-BASE] (https://project3-date-a-base.herokuapp.com/#/)
+- [Readme] (https://github.com/danielito76/Project3/blob/master/README.md)
+
+
+![First GIF](/src/img/readme-screenshots/Date-A-Base-GIF1.gif)
+
+![Second GIF](/src/img/readme-screenshots/Date-A-Base-GIF2.gif)
+
+
 ## Project Brief
 ​
 ### The following requirements were a must:
@@ -44,9 +53,18 @@ Launch on GitHub Pages. Check out the GitHub Repo.
 ​
 We spend the first day exploring ideas and throughly planning our project. This included:
 * Wireframes
-============Wireframe photos===========================
+
+
+![Wireframe](/src/img/readme-screenshots/Date_A_Base_Wireframe.jpg)
+
+
+
 * Trello board
-====================Trello photo======================
+
+
+![Trello board](/src/img/readme-screenshots/Date-A-Base-Trello.png)
+
+
 * Allocation of responsibilities
 * Decide back and frontend approach
 ​
@@ -106,6 +124,267 @@ We enabled the Contact Form to send email to a our specific gmail address from t
 In the About Us page we used a 3d effect CSS to make the page more interesting
 ### Terms and Conditions
 The same as About Us and Contacts, Terms and Conditions are in the footer so that accessible everywhere in the website. We decided to display the documentation using a Bulma modal overlay effect implemented with Javascript code.
-### Future content
-* Address lookup funtion consuming a public API
-* Enhancing funtions and layout according to a User Experience research
+
+![Home](/src/img/readme-screenshots/Date-A-Base-Home.png)
+
+![Index](/src/img/readme-screenshots/Date-A-Base-Index.png)
+
+![Show](/src/img/readme-screenshots/Date-A-Base-Show.png)
+
+![Fullmap](/src/img/readme-screenshots/Date-A-Base-Fullmap.png)
+
+![Add](/src/img/readme-screenshots/Date-A-Base-Add.png)
+
+![Contact](/src/img/readme-screenshots/Date-A-Base-Contact.png)
+
+![Modal](/src/img/readme-screenshots/Date-A-Base-Modal.png)
+
+
+
+## Functionality
+
+### Map Show
+
+```javascript
+<Map
+  className="map"
+  style="mapbox://styles/mapbox/streets-v9"
+  zoom={zoom}
+  center={[this.state.location.longitude, this.state.location.latitude]}
+  containerStyle={{
+    height: '100%',
+    width: '100%'
+  }}
+>
+  <Marker
+    coordinates={[this.state.location.longitude, this.state.location.latitude]}
+    anchor="bottom">
+    <img width="30px" height="30px" src={mapMarker} />
+  </Marker>
+</Map>
+```
+
+### Rating
+```javascript
+{Auth.isAuthenticated() && <form onSubmit={this.handleSubmit}>
+  <div className="field">
+    <StarRatings
+      name="rating"
+      starRatedColor="#FFC300"
+      numberOfStars={5}
+      starDimension="15px"
+      starSpacing="5px"
+      changeRating={this.handleChangeRating}
+      rating={this.state.formData.rating}
+    />
+
+  </div>
+  <div className="field">
+    <textarea
+      name="content"
+      className="textarea"
+      placeholder="Add a comment..."
+      onChange={this.handleChangeContent}
+      value={this.state.formData.content}
+    />
+  </div>
+
+  <button className="submiticon" ><FontAwesomeIcon className="icon" icon={faEnvelope} /></button>
+</form>}
+```
+
+### Avatar in Navbar
+```javascript
+{Auth.isAuthenticated() && <div className="navbar-item avatar">
+  <div className={`dropdown is-right ${this.state.dropdownOpen ? 'is-active' : ''}`}>
+    <div className="dropdown-trigger">
+      <button className="navIcon" aria-haspopup="true" aria-controls="dropdown-menu" onClick={this.toggleDropdown}>
+        <span className="icon is-small">
+          <img
+            src={`${Auth.getUser().image}`}
+            aria-hidden="true"
+          />
+        </span>
+      </button>
+    </div>
+    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+      <div className="dropdown-content">
+        <Link to={`/profiles/${Auth.getUser()._id}`} className="dropdown-item">
+        My Profile
+        </Link>
+        <a className="dropdown-item"  onClick={this.logout}>
+        Logout
+        </a>
+      </div>
+```
+### Filters
+```javascript
+componentDidMount() {
+  axios.get('/api/locations')
+    .then(res => {
+      this.setState({ ...this.props.location.state, locations: res.data, filteredLocations: res.data})
+    })
+}
+```
+### Contact page
+```javascript
+const mailer = require('../lib/mailer')
+const { USER } = require('../config/environment')
+
+function emailRoute(req, res, next){
+  const name = req.body.name
+  const email = req.body.email
+  const message = req.body.message
+  const content = `name: ${name} \n email: ${email} \n message: ${message} `
+
+  const mail = {
+    from: name,
+    to: USER,  //Change to email address that you want to receive messages on
+    subject: 'New Message from Contact Form',
+    text: content
+  }
+
+  mailer.sendMail(mail, (err) => {
+    if (err) next(err)
+    else res.json({ message: 'Message sent' })
+  })
+}
+
+module.exports = {
+  email: emailRoute
+}
+```
+### Image uploader
+```javascript
+handleUploadImages(result) {
+  const formData = {...this.state.formData, image: result.filesUploaded[0].url}
+  this.setState({ formData })
+}
+
+<div className="field">
+  <label className="label">Image</label>
+  <ReactFilestack
+    mode="transform"
+    apikey={fileloaderKey}
+    buttonText="Upload Photo"
+    buttonClass="button"
+    className="upload-image"
+    options={options}
+    onSuccess={(result) => this.handleUploadImages(result)}
+    preload={true}
+  />
+  {this.state.formData.image && <img src={this.state.formData.image} />}
+</div>
+```
+### Testing
+```javascript
+describe('POST /locations', () => {
+
+  let token
+
+  beforeEach(done => {
+    User.create(testUser)
+      .then(user => {
+        token = jwt.sign({ sub: user._id }, secret, { expiresIn: '167h' })
+        done()
+      })
+  })
+
+  afterEach(done => {
+    Location.remove({})
+      .then(() => User.remove({}))
+      .then(() => done())
+  })
+
+
+  it('should return a 401 response without a token', done => {
+    api
+      .post('/api/locations')
+      .send(testData)
+      .end((err, res) => {
+        expect(res.status).to.eq(401)
+        done()
+      })
+  })
+
+  it('should return a 201 response with a token', done => {
+    api
+      .post('/api/locations')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testData)
+      .end((err, res) => {
+        expect(res.status).to.eq(201)
+        done()
+      })
+  })
+
+  it('should return an object', done => {
+    api
+      .post('/api/locations')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testData)
+      .end((err, res) => {
+        expect(res.body).to.be.an('object')
+        done()
+      })
+  })
+
+  it('should return the correct fields', done => {
+    api
+      .post('/api/locations')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testData)
+      .end((err, res) => {
+        expect(res.body).to.contains.keys([
+          '_id',
+          'name',
+          'addressLine1',
+          'addressLine2',
+          'addressCity',
+          'addressPostCode',
+          'longitude',
+          'latitude',
+          'actType',
+          'cost',
+          'dateNum',
+          'desc',
+          'image',
+          'contactNumber',
+          'link'
+        ])
+        done()
+      })
+  })
+
+  it('should return the correct data', done => {
+    api
+      .post('/api/locations')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testData)
+      .end((err, res) => {
+        expect(res.body.name).to.eq(testData.name)
+        expect(res.body.addressLine1).to.eq(testData.addressLine1)
+        expect(res.body.addressLine2).to.eq(testData.addressLine2)
+        expect(res.body.addressCity).to.eq(testData.addressCity)
+        expect(res.body.addressPostCode).to.eq(testData.addressPostCode)
+        expect(res.body.cost).to.eq(testData.cost)
+        expect(res.body.actType).to.deep.eq(testData.actType)
+        expect(res.body.dateNum).to.deep.eq(testData.dateNum)
+        expect(res.body.image).to.eq(testData.image)
+        expect(res.body.contactNumber).to.eq(testData.contactNumber)
+        expect(res.body.link).to.eq(testData.link)
+        done()
+      })
+  })
+})
+
+```
+
+
+
+
+
+## Future content
+* Address lookup function consuming a public API
+* Enhancing functions and layout according to a User Experience research
+* Improving the Graphics

@@ -94,7 +94,7 @@ class Register extends React.Component {
                         <input
                           className="input is-rounded"
                           type="password"
-                          name="passwordConfirmation"
+                          name="password_confirmation"
                           placeholder="eg: ••••••••"
                           onChange={this.handleChange}
                         />

@@ -93,9 +93,7 @@ class New extends React.Component {
   }
 
   render() {
-    console.log(this.state.errors)
-
-
+    console.log(this.formData)
     return (
 
       <section className="hero is-light">
@@ -103,8 +101,8 @@ class New extends React.Component {
           <div className="container has-text-centered">
             <div className="column is-4 is-offset-4">
 
-              <h3> New Space </h3>
-              <p className="subtitle">Tell us about your fav</p>
+              <h3 className="title is-1" > New Space </h3>
+              <p className="subtitle has-text-black">Tell us about your fav</p>
               <div className="box is-light">
                 <form onSubmit={this.handleSubmit}>
                   <div className="field">
@@ -123,7 +121,7 @@ class New extends React.Component {
                     <input
                       className="input"
                       name="addressLine1"
-                      placeholder="eg: LoveExp Cafe"
+                      placeholder="eg: LoveExp Cafe, love cafe street, se16 6yy"
                       onChange={this.handleChangeNormal}
                     />
                     {this.state.errors.addressLine1 && <small className="help is-danger">{this.state.errors.addressLine1}</small>}
@@ -133,7 +131,7 @@ class New extends React.Component {
                     <input
                       className="input"
                       name="addressLine2"
-                      placeholder="eg: Love cafe street"
+                      placeholder="eg: LoveExp Cafe, love cafe street, se16 6yy"
                       onChange={this.handleChangeNormal}
                     />
                     {this.state.errors.addressLine2 && <small className="help is-danger">{this.state.errors.addressLine2}</small>}
@@ -143,7 +141,7 @@ class New extends React.Component {
                     <input
                       className="input"
                       name="addressCity"
-                      placeholder="eg: London"
+                      placeholder="eg: LoveExp Cafe, love cafe street, se16 6yy"
                       onChange={this.handleChangeNormal}
                     />
                     {this.state.errors.addressCity && <small className="help is-danger">{this.state.errors.addressCity}</small>}
@@ -153,7 +151,7 @@ class New extends React.Component {
                     <input
                       className="input"
                       name="addressPostCode"
-                      placeholder="SE16 6YY"
+                      placeholder="eg: LoveExp Cafe, love cafe street, se16 6yy"
                       onChange={this.handleChangeNormal}
                     />
                     {this.state.errors.addressPostCode && <small className="help is-danger">{this.state.errors.addressPostCode}</small>}
@@ -197,7 +195,6 @@ class New extends React.Component {
                       onChange={this.handleMultiChange}
                     />
                     {this.state.errors.dateNum && <small className="help is-danger">{this.state.errors.dateNum}</small>}
-
                   </div>
                   <div className="field">
                     <label className="label">Image</label>
@@ -224,7 +221,7 @@ class New extends React.Component {
                     />
                     {this.state.errors.contactNumber && <small className="help is-danger">{this.state.errors.contactNumber}</small>}
                   </div>
-                  <button className="submit">Submit</button>
+                  <button className="button">Submit</button>
                 </form>
               </div>
             </div>
