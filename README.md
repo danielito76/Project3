@@ -1,5 +1,4 @@
 # **Project 3: Date-A-Base** ![ga_cog_large_red_rgb](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png)
-# Project 3: Date-a-base
 ## Dating Experience Website
 # Team
 - Daniele Nocito
@@ -380,6 +379,11 @@ describe('POST /locations', () => {
 
 ```
 
+### Wins, Blockers and key learnings
+
+The most important win was definitely our capacity of working together as a team. Besides that must be mentioned some particular key features that we were able to build: the user profile; posts that can be commented, edited, liked or deleted by members; the map which shows a preview of each location; the different filters on the locations index; the possibility of assigning a rating to the locations; the function of uploading pictures; and finally the users can interact with founders via Contact form.
+We had episodes of blockers when we were building the most complex functions that I just mentioned above, but we are particularly proud of being able to find the solutions and make them working.
+The key learning for this project is definitely the team work: especially technically, as we had to handle the hole project managing different branches on GitHub; but also from a Human and organisational point of view. 
 
 
 
